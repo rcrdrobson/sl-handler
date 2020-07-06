@@ -4,12 +4,13 @@ Docker - https://docs.docker.com/get-docker/
 Go - https://golang.org/dl/
 
 ### Build
-Before running main.go you need to compile. To do this, with Golang installed, go to the / src directory and run the command: '''go build main.go'''.
-This command will create the '''main''' binary.
+Before running main.go you need to compile. To do this, with Golang installed, go to the **/src** directory and run the command: **go build main.go**.
+
+This command will create the **main** binary.
 
 ### Running
-To run the SL-Handler, after creating your torque in the previous step, run the following command or execute the torque:
-'''./main'''.
+To run the SL-Handler, after creating your torque in the previous step, run the following command or execute the binary file:
+**./main**.
 
 ## Contribute and license
 **sl-handler** was created by **Ricardo Robson**, you can follow him on [Twitter](https://twitter.com/rcrdrobson) or [Facebook](https://www.facebook.com/rcrdrobson) for updates and other projects!
