@@ -1,14 +1,23 @@
 ## Running the SL-Handler
+
 ### Dependencies
 Docker - https://docs.docker.com/get-docker/
 Go - https://golang.org/dl/
 
-### Add SL-Handler packages on path
+### Run the binary file
+
+You can directly run the binary file, or compile and then run.
+
+To run directly run the main file in the **/src** folder use the command: **./main**.
+
+To compile and run manually follow the steps below.
+
+### Download the necessary SL-Handler modules 
 Run:
 
 **go get github.com/ricardorobson/sl-handler/src/database**
 
-and
+and after
 
 **go get github.com/ricardorobson/sl-handler/src/docker**
 
