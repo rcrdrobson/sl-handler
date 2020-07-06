@@ -3,6 +3,15 @@
 Docker - https://docs.docker.com/get-docker/
 Go - https://golang.org/dl/
 
+### Add SL-Handler packages on path
+Run:
+
+**go get github.com/ricardorobson/sl-handler/src/database**
+
+and
+
+**go get github.com/ricardorobson/sl-handler/src/docker**
+
 ### Build
 Before running main.go you need to compile. To do this, with Golang installed, go to the **/src** directory and run the command: **go build main.go**.
 
