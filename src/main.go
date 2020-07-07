@@ -24,6 +24,7 @@ const (
 	functionEndpoint = "/function/"
 	callEndpoint     = "/call/"
 	port             = ":80"
+	timeOutSeconds   = 60
 )
 
 func main() {
@@ -150,13 +151,18 @@ func call(res http.ResponseWriter, req *http.Request) {
 	var applicationRunTime time.Duration
 	gatewayReq, err := http.NewRequest(req.Method, fmt.Sprintf("http://%v:8080/%v", containerIP, requestData[len(imageName)+1:]), req.Body)
 	var gatewayRes *http.Response
-	for i := 0; i < 200; i++ {
-		fmt.Printf("Connection tries: %v\n", i)
+	for true {
 		startApplicationRunTime := time.Now()
 		gatewayRes, err = http.DefaultClient.Do(gatewayReq)
 		if err == nil {
 			applicationRunTime = time.Since(startApplicationRunTime)
 			fmt.Printf("## Request Run Time: %v\n", applicationRunTime)
+			break
+		}
+		applicationConnectionTime := time.Since(startApplicationConnectionTime)
+
+		if float64(applicationConnectionTime)*0.000000001 >= timeOutSeconds {
+			fmt.Printf("## Request Timeout Fail to %v\n", containerIP)
 			break
 		}
 		time.Sleep(10 * time.Millisecond)
