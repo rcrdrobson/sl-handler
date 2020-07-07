@@ -25,7 +25,6 @@ const (
 	callEndpoint     = "/call/"
 	port             = ":80"
 	timeOutSeconds   = 60
-	memoryLimitConst = "256000000"
 )
 
 func main() {
@@ -34,7 +33,6 @@ func main() {
 	if isConnected := dockerClient.IsConnected(); !isConnected {
 		fmt.Println("Failed to connect")
 	}
-	fmt.Printf("http://docker/build?t=%v&memory=%v", "teste",256)
 
 	http.HandleFunc(functionEndpoint, function)
 	http.HandleFunc(callEndpoint, call)
@@ -143,7 +141,7 @@ func call(res http.ResponseWriter, req *http.Request) {
 	fmt.Printf("imageName")
 	fmt.Printf(imageName)
 
-	containerID, err := dockerClient.CreateContainer(imageName, memoryLimitConst)
+	containerID, err := dockerClient.CreateContainer(imageName)
 	fmt.Printf("## Container ID: %v\n", containerID)
 
 	containerIP, containerStartTime := dockerClient.StartContainer(containerID)

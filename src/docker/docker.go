@@ -63,12 +63,12 @@ func (c *Client) CreateImage(name string, files ...FileInfo) (err error) {
 }
 
 // CreateContainer initializes a container with the received image, returns the container id and error if exist
-func (c *Client) CreateContainer(image string, memoryLimit string) (string, error) {
+func (c *Client) CreateContainer(image string) (string, error) {
 	fmt.Printf("CreateContainer")
 	response, err := c.unixHTTPClient.Post(
 		"http://docker/containers/create",
 		"application/json",
-		bytes.NewReader([]byte(fmt.Sprintf(`{ "Image": "%v", "Memory" : "%v" }`, image, memoryLimit))),
+		bytes.NewReader([]byte(fmt.Sprintf(`{ "Image": "%v", "Memory" : "%v" }`, image, "256000000"))),
 	)
 	if err != nil {
 		return "", err
