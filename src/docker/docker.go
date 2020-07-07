@@ -63,7 +63,7 @@ func (c *Client) CreateImage(name string, files ...FileInfo) (err error) {
 }
 
 // CreateContainer initializes a container with the received image, returns the container id and error if exist
-func (c *Client) CreateContainer(image, memoryLimit string) (string, error) {
+func (c *Client) CreateContainer(image string, memoryLimit string) (string, error) {
 	fmt.Printf("CreateContainer")
 	response, err := c.unixHTTPClient.Post(
 		"http://docker/containers/create",
