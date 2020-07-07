@@ -51,7 +51,7 @@ func (c *Client) CreateImage(name string, files ...FileInfo) (err error) {
 	tarWriter.Close()
 
 	response, err := c.unixHTTPClient.Post(
-		fmt.Sprintf("http://docker/build?t=%v", name),
+		fmt.Sprintf("http://docker/build?t=%v&m=%v", name,256),
 		"application/x-tar",
 		&tarBuffer,
 	)
