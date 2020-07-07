@@ -51,7 +51,7 @@ func (c *Client) CreateImage(name string, files ...FileInfo) (err error) {
 	tarWriter.Close()
 
 	response, err := c.unixHTTPClient.Post(
-		fmt.Sprintf("http://docker/build?t=%v&memory=%v", name,256),
+		fmt.Sprintf("http://docker/build?t=%v", name),
 		"application/x-tar",
 		&tarBuffer,
 	)
@@ -68,7 +68,7 @@ func (c *Client) CreateContainer(image string) (string, error) {
 	response, err := c.unixHTTPClient.Post(
 		"http://docker/containers/create",
 		"application/json",
-		bytes.NewReader([]byte(fmt.Sprintf(`{ "Image": "%v" }`, image))),
+		bytes.NewReader([]byte(fmt.Sprintf(`{ "Image": "%v", "Memory" : "%v" }`, image, "256000000"))),
 	)
 	if err != nil {
 		return "", err
