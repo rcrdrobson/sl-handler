@@ -6,7 +6,7 @@ Go - https://golang.org/dl/
 
 ### Run the binary file
 
-You can directly run the binary file, or compile and then run.
+TESTE You can directly run the binary file, or compile and then run.
 
 To run directly run the main file in the **/src** folder use the command: **./main**.
 
