@@ -15,7 +15,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                sh 'curl --location --request POST 127.0.0.1/call/enviaremail10/sendMail?emails=rcrdrobson@gmail.com,rrms@cin.ufpe.br'
+                sh 'curl -s -o --request GET 127.0.0.1/call/enviaremail10/sendMail?emails=rcrdrobson@gmail.com,rrms@cin.ufpe.br'
             }
         }
     }
