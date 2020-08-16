@@ -13,10 +13,11 @@ type Database struct {
 }
 
 type Function struct {
-	Id     int
-	Name   string
-	Code   string
-	Pack   string
+	Id         int
+	Name       string
+	Code       string
+	Pack       string
+	Dockerfile string
 }
 
 const (
@@ -38,20 +39,20 @@ func (d *Database) Close() {
 func (d *Database) createSchema() {
 	switch sqliteVersion {
 	case "mysql":
-		var qFunctionTable = "CREATE TABLE IF NOT EXISTS function (id INT(10) NOT NULL AUTO_INCREMENT, name TEXT, code TEXT, pack TEXT, PRIMARY KEY (`id`))"
+		var qFunctionTable = "CREATE TABLE IF NOT EXISTS function (id INT(10) NOT NULL AUTO_INCREMENT, name TEXT, code TEXT, pack TEXT, dockerfile TEXT, PRIMARY KEY (`id`))"
 		statement, _ := d.connection.Prepare(qFunctionTable)
 		statement.Exec()
 	case "sqlite3":
-		var qFunctionTable = "CREATE TABLE IF NOT EXISTS function (id INTEGER PRIMARY KEY, name TEXT, code TEXT, pack TEXT)"
+		var qFunctionTable = "CREATE TABLE IF NOT EXISTS function (id INTEGER PRIMARY KEY, name TEXT, code TEXT, pack TEXT, dockerfile TEXT)"
 		statement, _ := d.connection.Prepare(qFunctionTable)
 		statement.Exec()
 	}
 }
 
-func (d *Database) InsertFunction(name string, code string, pack string) {
-	statement, err := d.connection.Prepare("INSERT INTO function (name, code, pack) VALUES (?, ?, ?)")
+func (d *Database) InsertFunction(name string, code string, pack string, dockerfile string) {
+	statement, err := d.connection.Prepare("INSERT INTO function (name, code, pack, dockerfile) VALUES (?, ?, ?, ?)")
 	checkErr(err)
-	_, err = statement.Exec(name, code, pack)
+	_, err = statement.Exec(name, code, pack, dockerfile)
 	checkErr(err)
 }
 
@@ -75,7 +76,7 @@ func (d *Database) SelectFunction(name string) string {
 	}
 
 	function := Function{}
-	err = rows.Scan(&function.Id, &function.Name, &function.Code, &function.Pack)
+	err = rows.Scan(&function.Id, &function.Name, &function.Code, &function.Pack, &function.Dockerfile)
 	checkErr(err)
 
 	var buf bytes.Buffer
@@ -92,7 +93,7 @@ func (d *Database) SelectAllFunction() string {
 
 	for rows.Next() {
 		function := Function{}
-		err = rows.Scan(&function.Id, &function.Name, &function.Code, &function.Pack)
+		err = rows.Scan(&function.Id, &function.Name, &function.Code, &function.Pack, &function.Dockerfile)
 		checkErr(err)
 		functionList = append(functionList, function)
 	}
