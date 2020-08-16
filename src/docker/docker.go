@@ -64,20 +64,26 @@ func (c *Client) CreateImage(name string, files ...FileInfo) (err error) {
 
 // CreateContainer initializes a container with the received image, returns the container id and error if exist
 func (c *Client) CreateContainer(image string) (string, error) {
-	fmt.Printf("CreateContainer")
+	fmt.Println("CreateContainer")
 	response, err := c.unixHTTPClient.Post(
 		"http://docker/containers/create",
 		"application/json",
-		bytes.NewReader([]byte(fmt.Sprintf(`{ "Image": "%v", "Memory" : "%v" }`, image, "256000000"))),
+		bytes.NewReader([]byte(fmt.Sprintf(`{ "Image": "%v" }`, image))),
 	)
+	fmt.Println("Err")
+	fmt.Println(err)
 	if err != nil {
 		return "", err
 	}
 	body, err2 := ioutil.ReadAll(response.Body)
 	response.Body.Close()
-
+	fmt.Println("body")
+	fmt.Println(body)
+	fmt.Println("err2")
+	fmt.Println(err2)
 	containerID := string(body[7:71])
-
+	fmt.Println("containerID")
+	fmt.Println(containerID)
 	return containerID, err2
 }
 
@@ -88,6 +94,13 @@ func (c *Client) StartContainer(containerID string) (string, error) {
 		"application/json",
 		nil,
 	)
+	
+	
+	fmt.Println("response")
+	fmt.Println(response)
+	
+	fmt.Println("err")
+	fmt.Println(err)
 
 	io.Copy(os.Stdout, response.Body)
 	response.Body.Close()
@@ -95,10 +108,21 @@ func (c *Client) StartContainer(containerID string) (string, error) {
 	inspectResponse, _ := c.unixHTTPClient.Get(
 		fmt.Sprintf("http://docker/containers/%v/json", containerID),
 	)
+	
+	fmt.Println("inspectResponse")
+	fmt.Println(inspectResponse)
+	
+	
 	var inspectJSON map[string]interface{}
 	json.NewDecoder(inspectResponse.Body).Decode(&inspectJSON)
 	containerIP := inspectJSON["NetworkSettings"].(map[string]interface{})["Networks"].(map[string]interface{})["bridge"].(map[string]interface{})["IPAddress"].(string)
 
+	
+	
+	fmt.Println("containerIP")
+	fmt.Println(containerIP)
+	
+	
 	return containerIP, err
 }
 
